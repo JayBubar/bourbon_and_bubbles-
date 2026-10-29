@@ -7,6 +7,7 @@ import More from './pages/More'
 import Profile from './pages/Profile'
 import Users from './pages/Users'
 import ComingSoon from './pages/ComingSoon'
+import TasksPage from './pages/tasks/TasksPage'
 
 export default function App() {
   const { status, isAdmin } = useAuth()
@@ -25,7 +26,7 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Dashboard />} />
-        <Route path="tasks" element={<ComingSoon title="Tasks" />} />
+        <Route path="tasks" element={<TasksPage />} />
         <Route path="outreach" element={<ComingSoon title="Outreach" />} />
         <Route path="tickets" element={<ComingSoon title="Ticket Sales" />} />
         <Route path="ideas" element={<ComingSoon title="Ideas Board" />} />

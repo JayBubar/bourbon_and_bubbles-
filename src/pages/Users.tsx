@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import { supabase, type AllowedUser, type Role } from '../lib/supabase'
 import { useAuth } from '../lib/auth'
+import { loadUsers } from '../lib/useUsers'
 import { Icon } from '../components/Icon'
 
 export default function Users() {
@@ -13,6 +14,7 @@ export default function Users() {
   const load = useCallback(async () => {
     const { data } = await supabase.from('allowed_users').select('*').order('role').order('name')
     setUsers((data as AllowedUser[]) ?? [])
+    loadUsers(true) // refresh the shared assignee list
   }, [])
 
   useEffect(() => {
