@@ -11,6 +11,8 @@ import TasksPage from './pages/tasks/TasksPage'
 import CompaniesPage from './pages/companies/CompaniesPage'
 import CompanyDetail from './pages/companies/CompanyDetail'
 import ImportPage from './pages/companies/ImportPage'
+import ReceiptPage from './pages/companies/ReceiptPage'
+import SettingsPage from './pages/SettingsPage'
 
 export default function App() {
   const { status, isAdmin } = useAuth()
@@ -27,6 +29,8 @@ export default function App() {
 
   return (
     <Routes>
+      {/* full-page, printable */}
+      <Route path="receipt/:id" element={<ReceiptPage />} />
       <Route element={<Layout />}>
         <Route index element={<Dashboard />} />
         <Route path="tasks" element={<TasksPage />} />
@@ -40,7 +44,7 @@ export default function App() {
         <Route path="profile" element={<Profile />} />
         {isAdmin && <Route path="budget" element={<ComingSoon title="Budget" />} />}
         {isAdmin && <Route path="users" element={<Users />} />}
-        {isAdmin && <Route path="settings" element={<ComingSoon title="Settings" />} />}
+        {isAdmin && <Route path="settings" element={<SettingsPage />} />}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

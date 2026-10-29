@@ -26,6 +26,7 @@ export default function CompaniesPage() {
   const owner = params.get('owner') ?? 'any'
   const q = params.get('q') ?? ''
   const sort = (params.get('sort') as SortKey) ?? 'name'
+  const needsReceipt = params.get('receipt') === 'needed'
 
   const setParam = (key: string, value: string | null) => {
     const next = new URLSearchParams(params)
@@ -61,6 +62,7 @@ export default function CompaniesPage() {
     const list = companies.filter(
       (c) =>
         (!status || c.status === status) &&
+        (!needsReceipt || (c.status === 'yes' && !c.receipt_sent_on)) &&
         (owner === 'any' || (owner === 'none' ? !c.owner_id : owner === 'me' ? c.owner_id === me?.id : c.owner_id === owner)) &&
         (!needle ||
           [c.name, c.contact_name, c.category, c.email].some((v) => (v ?? '').toLowerCase().includes(needle))),
@@ -73,7 +75,9 @@ export default function CompaniesPage() {
       updated: (a, b) => b.updated_at.localeCompare(a.updated_at),
     }
     return [...list].sort(by[sort])
-  }, [companies, status, owner, q, sort, users, me])
+  }, [companies, status, owner, q, sort, users, me, needsReceipt])
+
+  const receiptsDue = companies.filter((c) => c.status === 'yes' && !c.receipt_sent_on).length
 
   const levelName = (id: string | null) => levels.find((l) => l.id === id)?.name
   const ownerName = (id: string | null) => firstName(users.find((u) => u.id === id)?.name) || '—'
@@ -122,6 +126,11 @@ export default function CompaniesPage() {
             {STATUS_LABEL[s]} {counts[s]}
           </Chip>
         ))}
+        {kind !== 'distributor' && receiptsDue > 0 && (
+          <Chip active={needsReceipt} onClick={() => setParam('receipt', needsReceipt ? null : 'needed')}>
+            🧾 Needs receipt {receiptsDue}
+          </Chip>
+        )}
       </div>
 
       <div className="grid gap-2 sm:grid-cols-3">

@@ -25,6 +25,8 @@ export interface Company {
   tax_deductible: number | null
   product_provided: string | null
   tasting_host: string | null
+  receipt_sent_on: string | null
+  receipt_sent_by: string | null
   created_at: string
   updated_at: string
 }

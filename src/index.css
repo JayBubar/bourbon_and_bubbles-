@@ -27,6 +27,18 @@
   }
 }
 
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+  @page {
+    margin: 0.75in;
+  }
+}
+
 @layer components {
   .btn {
     @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 font-medium transition disabled:opacity-50;

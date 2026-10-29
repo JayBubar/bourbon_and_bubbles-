@@ -64,6 +64,7 @@ export default function CompanyDetail() {
   if (!company) return <p className="text-navy/50">Loading…</p>
 
   const owner = users.find((u) => u.id === company.owner_id)
+  const receiptSender = users.find((u) => u.id === company.receipt_sent_by)
   const kindInfo = KINDS.find((k) => k.id === company.kind)!
 
   return (
@@ -127,6 +128,24 @@ export default function CompanyDetail() {
       )}
       {company.kind === 'distributor' && (
         <p className="text-xs text-navy/60">Questions about distributor partners go to Virginia Wells.</p>
+      )}
+
+      {company.kind !== 'distributor' && (
+        <section className="card flex flex-wrap items-center gap-3">
+          <div className="min-w-0 flex-1">
+            <h2 className="text-lg">Donation receipt</h2>
+            <p className={`text-sm ${company.receipt_sent_on ? 'text-emerald-800' : 'text-navy/60'}`}>
+              {company.receipt_sent_on
+                ? `Sent ${formatDate(company.receipt_sent_on, { year: 'numeric' })}${receiptSender ? ` by ${receiptSender.name}` : ''}`
+                : company.status === 'yes'
+                  ? 'Not sent yet'
+                  : 'Available once they say yes'}
+            </p>
+          </div>
+          <Link to={`/receipt/${company.id}`} className="btn btn-ghost text-sm">
+            {company.receipt_sent_on ? 'View receipt' : 'Create receipt'}
+          </Link>
+        </section>
       )}
 
       <section className="space-y-2">
