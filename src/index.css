@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #1b2340;
+  --color-navy-light: #2c3866;
+  --color-burgundy: #7d1a28;
+  --color-rose: #b02a3e;
+  --color-gold: #c39a45;
+  --color-gold-light: #e6cf94;
+  --color-cream: #f8f4ec;
+  --color-parchment: #efe7d6;
+  --color-ink: #20232d;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-cream text-ink font-sans antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3 {
+    @apply font-serif text-navy;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 font-medium transition disabled:opacity-50;
+  }
+  /* use together with .btn, e.g. className="btn btn-primary" */
+  .btn-primary {
+    @apply bg-navy text-cream hover:bg-navy-light;
+  }
+  .btn-accent {
+    @apply bg-burgundy text-cream hover:bg-rose;
+  }
+  .btn-ghost {
+    @apply border border-navy/20 bg-white text-navy hover:bg-parchment;
+  }
+  .card {
+    @apply rounded-xl border border-gold/30 bg-white p-4 shadow-sm;
+  }
+  .input {
+    @apply min-h-11 w-full rounded-lg border border-navy/20 bg-white px-3 text-base focus:border-gold focus:ring-2 focus:ring-gold/40 focus:outline-none;
+  }
+  .label {
+    @apply mb-1 block text-sm font-medium text-navy/80;
+  }
+}
