@@ -13,6 +13,7 @@ import CompanyDetail from './pages/companies/CompanyDetail'
 import ImportPage from './pages/companies/ImportPage'
 import ReceiptPage from './pages/companies/ReceiptPage'
 import SettingsPage from './pages/SettingsPage'
+import TicketsPage from './pages/tickets/TicketsPage'
 
 export default function App() {
   const { status, isAdmin } = useAuth()
@@ -37,7 +38,7 @@ export default function App() {
         <Route path="outreach" element={<CompaniesPage />} />
         <Route path="outreach/import" element={<ImportPage />} />
         <Route path="outreach/:id" element={<CompanyDetail />} />
-        <Route path="tickets" element={<ComingSoon title="Ticket Sales" />} />
+        <Route path="tickets" element={<TicketsPage />} />
         <Route path="ideas" element={<ComingSoon title="Ideas Board" />} />
         <Route path="tables" element={<ComingSoon title="Tables" />} />
         <Route path="more" element={<More />} />
