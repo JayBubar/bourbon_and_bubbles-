@@ -6,7 +6,9 @@ import Dashboard from './pages/Dashboard'
 import More from './pages/More'
 import Profile from './pages/Profile'
 import Users from './pages/Users'
-import ComingSoon from './pages/ComingSoon'
+import IdeasPage from './pages/IdeasPage'
+import TablesPage from './pages/TablesPage'
+import BudgetPage from './pages/BudgetPage'
 import TasksPage from './pages/tasks/TasksPage'
 import CompaniesPage from './pages/companies/CompaniesPage'
 import CompanyDetail from './pages/companies/CompanyDetail'
@@ -39,11 +41,11 @@ export default function App() {
         <Route path="outreach/import" element={<ImportPage />} />
         <Route path="outreach/:id" element={<CompanyDetail />} />
         <Route path="tickets" element={<TicketsPage />} />
-        <Route path="ideas" element={<ComingSoon title="Ideas Board" />} />
-        <Route path="tables" element={<ComingSoon title="Tables" />} />
+        <Route path="ideas" element={<IdeasPage />} />
+        <Route path="tables" element={<TablesPage />} />
         <Route path="more" element={<More />} />
         <Route path="profile" element={<Profile />} />
-        {isAdmin && <Route path="budget" element={<ComingSoon title="Budget" />} />}
+        {isAdmin && <Route path="budget" element={<BudgetPage />} />}
         {isAdmin && <Route path="users" element={<Users />} />}
         {isAdmin && <Route path="settings" element={<SettingsPage />} />}
         <Route path="*" element={<Navigate to="/" replace />} />
