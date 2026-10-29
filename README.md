@@ -52,3 +52,12 @@ It stays off until:
 2. **The `opaslearningacademy.org` domain is verified in Resend.** Whoever manages that domain's DNS must add the
    records Resend shows (Resend > Domains > Add domain). Until then, set `REMINDER_FROM` to a sender on a verified domain.
 3. An admin turns reminders on in **Settings**. Each person can opt out in **My profile**.
+
+How it runs: `netlify/functions/send-reminders.mts` is scheduled at 22:00 and 23:00 UTC and only sends in the run
+where it is 6 PM in New York (that covers daylight saving). It emails tasks due tomorrow plus anything overdue,
+one email per person, and `reminder_log` prevents a second email the same day.
+
+Testing: **Settings → Send me a test reminder** (admins) calls `/api/reminder-test`, which emails the signed-in admin
+their own digest immediately (not logged). Until the domain is verified, `REMINDER_FROM` is set to Resend's test
+sender `onboarding@resend.dev`, which **only delivers to the email address that owns the Resend account**. After
+verification, change `REMINDER_FROM` in Netlify to `Bourbon & Bubbles <info@opaslearningacademy.org>` and redeploy.

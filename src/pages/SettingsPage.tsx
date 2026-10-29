@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from 'react'
 import { supabase } from '../lib/supabase'
+import { useAuth } from '../lib/auth'
 import { useSettings, type Settings } from '../lib/settings'
 import { money, parseMoney } from '../lib/format'
 import type { SponsorLevel } from './companies/types'
@@ -104,6 +105,7 @@ export default function SettingsPage() {
             <input type="checkbox" className="h-5 w-5 accent-burgundy" checked={!!form.reminders_enabled} onChange={(e) => set('reminders_enabled', e.target.checked)} />
             Send daily task reminder emails (6 PM Eastern; needs the Resend setup in the README)
           </label>
+          <TestReminder />
         </Section>
 
         <Section title="Donation receipts">
@@ -134,6 +136,39 @@ export default function SettingsPage() {
       </form>
 
       <SponsorLevels />
+    </div>
+  )
+}
+
+/** Emails the signed-in admin their own digest right now, to check the email setup. */
+function TestReminder() {
+  const { session } = useAuth()
+  const [state, setState] = useState<{ busy: boolean; msg?: string; ok?: boolean }>({ busy: false })
+
+  async function send() {
+    setState({ busy: true })
+    try {
+      const res = await fetch('/api/reminder-test', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${session?.access_token}` },
+      })
+      const body = await res.json().catch(() => ({ error: `HTTP ${res.status}` }))
+      setState(
+        res.ok
+          ? { busy: false, ok: true, msg: `Sent to ${body.sentTo} (${body.tomorrow} due tomorrow, ${body.overdue} overdue).` }
+          : { busy: false, ok: false, msg: body.error ?? `HTTP ${res.status}` },
+      )
+    } catch (e) {
+      setState({ busy: false, ok: false, msg: (e as Error).message })
+    }
+  }
+
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <button type="button" className="btn btn-ghost text-sm" disabled={state.busy} onClick={send}>
+        {state.busy ? 'Sending…' : 'Send me a test reminder'}
+      </button>
+      {state.msg && <span className={`text-sm ${state.ok ? 'text-emerald-800' : 'text-rose'}`}>{state.msg}</span>}
     </div>
   )
 }
