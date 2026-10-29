@@ -23,7 +23,7 @@ export default function TaskSheet({
 }: {
   open: boolean
   task: Task | null
-  defaults?: Partial<Pick<Task, 'due_date' | 'assignee_id'>>
+  defaults?: Partial<Pick<Task, 'due_date' | 'assignee_id' | 'company_id' | 'idea_id'>>
   onClose: () => void
   onSaved: () => void
 }) {
@@ -63,7 +63,13 @@ export default function TaskSheet({
             idea_id: task.idea_id ?? '',
             is_milestone: task.is_milestone,
           }
-        : { ...blank(), assignee_id: defaults?.assignee_id ?? me?.id ?? '', due_date: defaults?.due_date ?? '' },
+        : {
+            ...blank(),
+            assignee_id: defaults?.assignee_id ?? me?.id ?? '',
+            due_date: defaults?.due_date ?? '',
+            company_id: defaults?.company_id ?? '',
+            idea_id: defaults?.idea_id ?? '',
+          },
     )
     supabase
       .from('companies')

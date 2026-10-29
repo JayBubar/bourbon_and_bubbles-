@@ -8,6 +8,9 @@ import Profile from './pages/Profile'
 import Users from './pages/Users'
 import ComingSoon from './pages/ComingSoon'
 import TasksPage from './pages/tasks/TasksPage'
+import CompaniesPage from './pages/companies/CompaniesPage'
+import CompanyDetail from './pages/companies/CompanyDetail'
+import ImportPage from './pages/companies/ImportPage'
 
 export default function App() {
   const { status, isAdmin } = useAuth()
@@ -27,7 +30,9 @@ export default function App() {
       <Route element={<Layout />}>
         <Route index element={<Dashboard />} />
         <Route path="tasks" element={<TasksPage />} />
-        <Route path="outreach" element={<ComingSoon title="Outreach" />} />
+        <Route path="outreach" element={<CompaniesPage />} />
+        <Route path="outreach/import" element={<ImportPage />} />
+        <Route path="outreach/:id" element={<CompanyDetail />} />
         <Route path="tickets" element={<ComingSoon title="Ticket Sales" />} />
         <Route path="ideas" element={<ComingSoon title="Ideas Board" />} />
         <Route path="tables" element={<ComingSoon title="Tables" />} />
